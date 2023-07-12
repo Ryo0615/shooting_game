@@ -4,13 +4,14 @@ from bullet import Bullet
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, groups, x, y):
+    def __init__(self, groups, x, y, enemy_group):
         super().__init__(groups)
 
         self.screen = pygame.display.get_surface()
 
         # グループ
         self.bullet_group = pygame.sprite.Group()
+        self.enemy_group = enemy_group
 
         # 画像
         self.image_list = []
@@ -30,6 +31,10 @@ class Player(pygame.sprite.Sprite):
         # 弾
         self.fire = False
         self.timer = 0
+
+        # 体力
+        self.health = 1
+        self.alive = True
 
     def cooldown_bullet(self):
         if self.fire:
@@ -83,6 +88,18 @@ class Player(pygame.sprite.Sprite):
                 self.rect.top = 0
             elif self.rect.bottom > screen_height:
                 self.rect.bottom = screen_height
+    
+    def collision_enemy(self):
+        for enemy in self.enemy_group:
+            if self.rect.colliderect(enemy.rect):
+                self.health -= 1
+        
+        if self.health <= 0:
+            self.alive = False
+
+    def check_death(self):
+        if not self.alive:
+            self.kill()
 
     def update_image(self):
         self.pre_image = self.image_list[self.index]
@@ -93,6 +110,8 @@ class Player(pygame.sprite.Sprite):
         self.move()
         self.update_image()
         self.cooldown_bullet()
+        self.collision_enemy()
+        self.check_death()
 
         # グループの描画と更新
         self.bullet_group.draw(self.screen)

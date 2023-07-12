@@ -3,6 +3,7 @@ from setting import *
 from player import Player
 from enemy import Enemy
 import random
+from support import draw_text
 
 class Game():
 
@@ -24,6 +25,9 @@ class Game():
         self.bg_y = 0
         self.scroll_speed = 0.5
 
+        # ゲームオーバー
+        self.game_over = False
+
     def create_group(self):
         self.player_group = pygame.sprite.GroupSingle()
         self.enemy_group = pygame.sprite.Group()
@@ -34,6 +38,19 @@ class Game():
             enemy = Enemy(self.enemy_group, random.randint(50, 550), 0, self.player.bullet_group)
             self.timer = 0
 
+    def check_player_death(self):
+        if len(self.player_group) == 0:
+            self.game_over = True
+            draw_text(self.screen, 'GAME OVER', 75, screen_width/2, screen_height/2, RED)
+            draw_text(self.screen, 'Press SPACE KEY to restart', 50, screen_width/2, screen_height/2 + 100, RED)
+
+    def restart(self):
+        key = pygame.key.get_pressed()
+        if self.game_over and key[pygame.K_SPACE]:
+            self.player = Player(self.player_group, 300, 500, self.enemy_group)
+            self.enemy_group.empty()
+            self.game_over = False
+
     def scroll_bg(self):
         self.bg_y = (self.bg_y + self.scroll_speed) % screen_height
         self.screen.blit(self.bg_img, (0, self.bg_y - screen_height)) # y: -600 ~ -1
@@ -43,6 +60,9 @@ class Game():
         self.scroll_bg()
 
         self.create_enemy()
+
+        self.check_player_death()
+        self.restart()
 
         # グループの描画と更新
         self.player_group.draw(self.screen)

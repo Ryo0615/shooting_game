@@ -1,10 +1,16 @@
 import pygame
 from setting import *
+from bullet import Bullet
 
 class Player(pygame.sprite.Sprite):
 
     def __init__(self, groups, x, y):
         super().__init__(groups)
+
+        self.screen = pygame.display.get_surface()
+
+        # グループ
+        self.bullet_group = pygame.sprite.Group()
 
         # 画像
         self.image_list = []
@@ -20,6 +26,17 @@ class Player(pygame.sprite.Sprite):
         # 移動
         self.direction = pygame.math.Vector2()
         self.speed = 5
+
+        # 弾
+        self.fire = False
+        self.timer = 0
+
+    def cooldown_bullet(self):
+        if self.fire:
+            self.timer += 1
+        if self.timer > 10:
+            self.fire = False
+            self.timer = 0
 
     def move(self):
         if self.direction.magnitude() != 0: # ベクトルの長さが0でないとき
@@ -50,6 +67,10 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.y = 0
 
+        if key[pygame.K_z] and not self.fire:
+            bullet = Bullet(self.bullet_group, self.rect.centerx, self.rect.top)
+            self.fire = True
+
     def check_out_of_screen(self, direction):
         if direction == 'horizontal':
             if self.rect.left < 0:
@@ -71,3 +92,8 @@ class Player(pygame.sprite.Sprite):
         self.input()
         self.move()
         self.update_image()
+        self.cooldown_bullet()
+
+        # グループの描画と更新
+        self.bullet_group.draw(self.screen)
+        self.bullet_group.update()

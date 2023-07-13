@@ -20,7 +20,7 @@ class Game():
         self.timer = 0
 
         # 背景
-        self.pre_bg_img = pygame.image.load('assets/img/background/bg.png')
+        self.pre_bg_img = pygame.image.load(asset_path(f'assets/img/background/bg.png'))
         self.bg_img = pygame.transform.scale(self.pre_bg_img, (screen_width, screen_height))
         self.bg_y = 0
         self.scroll_speed = 0.5
@@ -29,7 +29,7 @@ class Game():
         self.game_over = False
 
         # BGM
-        pygame.mixer.music.load('assets/sound/bgm.mp3')
+        pygame.mixer.music.load(asset_path(f'assets/sound/bgm.mp3'))
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.1)
 

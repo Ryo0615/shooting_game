@@ -16,7 +16,7 @@ class Enemy(pygame.sprite.Sprite):
         #画像
         self.image_list = []
         for i in range(5):
-            image = pygame.image.load(f'assets/img/enemy/{i}.png')
+            image = pygame.image.load(asset_path(f'assets/img/enemy/enemy{i}.png'))
             self.image_list.append(image)
 
         self.index = 0
@@ -38,7 +38,7 @@ class Enemy(pygame.sprite.Sprite):
         self.explosion = False
 
         # 効果音
-        self.explosion_sound = pygame.mixer.Sound('assets/sound/explosion.mp3')
+        self.explosion_sound = pygame.mixer.Sound(asset_path(f'assets/sound/explosion.mp3'))
         self.explosion_sound.set_volume(0.1)
 
     def move(self):

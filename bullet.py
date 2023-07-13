@@ -9,7 +9,7 @@ class Bullet(pygame.sprite.Sprite):
         # 画像
         self.image_list = []
         for i in range(2):
-            image = pygame.image.load(f'assets/img/bullet/{i}.png')
+            image = pygame.image.load(asset_path(f'assets/img/bullet/bullet{i}.png'))
             self.image_list.append(image)
 
         self.index = 0

@@ -8,7 +8,7 @@ class Explosion(pygame.sprite.Sprite):
         # 画像
         self.image_list = []
         for i in range(5):
-            image = pygame.image.load(f'assets/img/explosion/{i}.png')
+            image = pygame.image.load(asset_path(f'assets/img/explosion/explosion{i}.png'))
             self.image_list.append(image)
         
         self.index = 0

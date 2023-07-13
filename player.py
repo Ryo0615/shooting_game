@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
         # 画像
         self.image_list = []
         for i in range(3):
-            image = pygame.image.load(f'assets/img/player/{i}.png')
+            image = pygame.image.load(asset_path(f'assets/img/player/player{i}.png'))
             self.image_list.append(image)
 
         self.index = 0 # 0:idle, 1:left, 2:right
@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.alive = True
 
         # 効果音
-        self.shoot_sound = pygame.mixer.Sound('assets/sound/shot.mp3')
+        self.shoot_sound = pygame.mixer.Sound(asset_path(f'assets/sound/shot.mp3'))
         self.shoot_sound.set_volume(0.1)
 
     def cooldown_bullet(self):

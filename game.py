@@ -28,6 +28,11 @@ class Game():
         # ゲームオーバー
         self.game_over = False
 
+        # BGM
+        pygame.mixer.music.load('assets/sound/bgm.mp3')
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.1)
+
     def create_group(self):
         self.player_group = pygame.sprite.GroupSingle()
         self.enemy_group = pygame.sprite.Group()

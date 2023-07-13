@@ -36,6 +36,10 @@ class Player(pygame.sprite.Sprite):
         self.health = 1
         self.alive = True
 
+        # 効果音
+        self.shoot_sound = pygame.mixer.Sound('assets/sound/shot.mp3')
+        self.shoot_sound.set_volume(0.1)
+
     def cooldown_bullet(self):
         if self.fire:
             self.timer += 1
@@ -75,6 +79,7 @@ class Player(pygame.sprite.Sprite):
         if key[pygame.K_z] and not self.fire:
             bullet = Bullet(self.bullet_group, self.rect.centerx, self.rect.top)
             self.fire = True
+            self.shoot_sound.play()
 
     def check_out_of_screen(self, direction):
         if direction == 'horizontal':

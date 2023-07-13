@@ -37,6 +37,10 @@ class Enemy(pygame.sprite.Sprite):
         #爆発
         self.explosion = False
 
+        # 効果音
+        self.explosion_sound = pygame.mixer.Sound('assets/sound/explosion.mp3')
+        self.explosion_sound.set_volume(0.1)
+
     def move(self):
         self.timer += 1
         if self.timer > 80:
@@ -75,6 +79,7 @@ class Enemy(pygame.sprite.Sprite):
             self.speed = 0
             explosion = Explosion(self.explosion_group, self.rect.centerx, self.rect.centery)
             self.explosion = True
+            self.explosion_sound.play()
         if self.explosion and len(self.explosion_group) == 0:
             self.kill()
 
